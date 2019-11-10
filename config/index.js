@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2019-11-08 22:13:35
+ * @LastEditTime: 2019-11-10 13:21:28
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /webapp/webapp/config/index.js
+ */
 'use strict'
 // Template version: 1.3.1
 // see http://vuejs-templates.github.io/webpack for documentation.
@@ -33,7 +41,6 @@ module.exports = {
     cacheBusting: true,
     cssSourceMap: true
   },
-
   build: {
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),

@@ -64,7 +64,7 @@ export default {
                     title: '工作台',
                     subs: [
                         {
-                            index: '/ho/homepage',
+                            index: '/',
                             title: '首页'
                         },
                     ]
@@ -75,7 +75,7 @@ export default {
                     title: '订单详情',
                     subs: [
                         {
-                            index: '/ho/customerorder',
+                            index: '/Order/GetMerchantOrderList',
                             title: '客户订单'
                         },
                         {

@@ -1,5 +1,14 @@
+/*
+ * @Author: your name
+ * @Date: 2019-11-08 22:13:35
+ * @LastEditTime: 2019-11-10 20:14:26
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /webapp/webapp/src/extends/axios.js
+ */
 import axios from 'axios';
 import router from '../router/index';
+import store from "../vuex";
 import { Loading, Message } from 'element-ui';
 axios.defaults.timeout = 300000;
 axios.defaults.withCredentials = true;
@@ -11,11 +20,18 @@ function CloseLoading() {
   }
 }
 axios.interceptors.request.use(config => {
-  if (!loadinginstace && config.data.isLoading !== false) {
-    loadinginstace = Loading.service({ fullscreen: true });
+  // if (!loadinginstace && config.data.isLoading !== false) {
+  //   loadinginstace = Loading.service({ fullscreen: true });
+  // }
+  let tokenID="";
+  if(store.state.user.userCtx){
+    tokenID=store.state.user.userCtx.token;
   }
+  config.headers["X-Token"]=tokenID
+  console.log(config.headers)
   return config;
 }, error => {
+  console.log(error)
   CloseLoading();
   Message.error({
     message: '加载超时'
@@ -23,26 +39,29 @@ axios.interceptors.request.use(config => {
   return Promise.reject(error);
 });
 axios.interceptors.response.use(data => {
+  console.log(data)
   CloseLoading();
-  // if (data.data.code == -1) {
-  //   Message.warning({ message: data.data.msg })
-  //   return Promise.reject(data);
-  // } else if (!data.data.msg) {
-  //   Message.success({ message: data.data.msg })
-  // }
+  if (data.data.statusCode == -1) {
+    Message.warning({ message:data.data.message })
+    return Promise.reject(data);
+  } else if (data.data.statusCode ==1) {
+    console.log(data)
+    Message.success({ message:data.data.message})
+  }
   return data;
 }, error => {
+  console.log(error)
   CloseLoading();
-  // console.log(error)
-  // if (error.response.status === 401) {
-  //   router.replace({ path: '/login' })
-  //   Message.error({ message: '身份认证过期，请重新登录' })
-  //   return;
-  // }
-  // if (error.response.status === 403) {
-  //   Message.warning({ message: '您没有此项操作的权限' })
-  //   return
-  // }
-  // Message.error({ message: error.response.data.ExceptionMessage })
+  if (error.status === 401) {
+    router.replace({ path: '/login' })
+    Message.error({ message: '身份认证过期，请重新登录' })
+    return;
+  }
+  if (error.status === 403) {
+    Message.warning({ message: '您没有此项操作的权限' })
+    return
+  }
+    // Message.error({ message: error.data.message })
 });
 export default axios;
+

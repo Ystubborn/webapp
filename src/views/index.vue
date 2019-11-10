@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2019-11-08 22:13:35
- * @LastEditTime: 2019-11-10 18:03:01
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /webapp/webapp/src/components/common/Home.vue
- -->
 <template>
     <div class="wrapper">
         <VHeader></VHeader>
@@ -18,16 +10,16 @@
                         <router-view></router-view>
                     <!-- </keep-alive>
                 </transition> -->
-                <!-- <el-backtop target=".content"></el-backtop> -->
+                <el-backtop target=".content"></el-backtop>
             </div>
         </div>
     </div>
 </template>
 <script>
-import VHeader from "./Header"
-import VSidebar from './Sidebar'
-//import TagHead from './Tags'
-import bus from './bus'
+import VHeader from "../components/common/Header"
+import VSidebar from '../components/common/Sidebar'
+// import TagHead from '../components/common/Tags'
+import bus from '../components/common/bus'
 export default {
     data(){
         return{
@@ -38,7 +30,7 @@ export default {
     components:{
         VHeader,
         VSidebar,
-        TagHead
+        // TagHead
     },
     created() {
         bus.$on('collapse-content', msg => {
@@ -46,13 +38,13 @@ export default {
         });
 
         // 只有在标签页列表里的页面才使用keep-alive，即关闭标签之后就不保存到内存中了。
-        bus.$on('tags', msg => {
-            let arr = [];
-            for (let i = 0, len = msg.length; i < len; i++) {
-                msg[i].name && arr.push(msg[i].name);
-            }
-            this.tagsList = arr;
-        });
+    //     bus.$on('tags', msg => {
+    //         let arr = [];
+    //         for (let i = 0, len = msg.length; i < len; i++) {
+    //             msg[i].name && arr.push(msg[i].name);
+    //         }
+    //         this.tagsList = arr;
+    //     });
     }
 }
 </script>
