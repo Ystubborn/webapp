@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2019-11-08 22:13:35
- * @LastEditTime: 2019-11-10 18:24:25
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /webapp/webapp/src/vuex/index.js
- */
 import Vue from 'vue';
 import Vuex from 'vuex';
 import user from "./modules/user";
@@ -19,6 +11,6 @@ export default new Vuex.Store({
 	},
 	plugins: [VuexPersistedState({
 		storage: window.sessionStorage,
-		paths: ['user']
+		paths: ['user','list']
 	})],
 });

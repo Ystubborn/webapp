@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2019-11-08 22:13:35
- * @LastEditTime: 2019-11-10 18:54:55
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /webapp/webapp/src/router/index.js
- */
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/views/login';
@@ -33,46 +25,51 @@ const routes = [
         }
       },
       {
-        path: "/Order",
+        path: "/Order/GetMerchantOrderList",
         component: () => import("../views/Order/GetMerchantOrderList"),
-        meta: { title: '订单管理' },
-        children: [
-          {
-            path: "/Order/GetMerchantOrderList",
-            component: () => import("../views/Order/GetMerchantOrderList"),
-            meta: { title: '商户订单' },
-            children: [
-              {
-                path: "/Order/GetMerchantOrderList/:id",
-                component: () => import("../views/Order/GMODetail"),
-                meta: { title: "详情" }
-              }
-            ]
-          },
-          {
-            path: "/Order/GetAdditionFeeList",
-            component: () => import("../views/Order/GetAdditionFeeList"),
-            meta: { title: '附加费' },
-          },
-          {
-            path: "/Order/GetServiceChangeList",
-            component: () => import("../views/Order/GetServiceChangeList"),
-            meta: { title: '补加单' },
-
-          },
-          {
-            path: "/Order/GetDocumentCount",
-            component: () => import("../views/Order/GetDocumentCount"),
-            meta: { title: '退款单' },
-
-          },
-          {
-            path: "/Order/GetFeedBackList",
-            component: () => import("../views/Order/GetFeedBackList"),
-            meta: { title: '问题单' },
-          },
-        ]
+        meta: {
+          title: '商户订单',
+          requireAuth: true
+        },
       },
+      {
+        path: "/Order/GetAdditionFeeList",
+        component: () => import("../views/Order/GetAdditionFeeList"),
+        meta: { title: '附加费' },
+      },
+      {
+        path: "/Order/GetServiceChangeList",
+        component: () => import("../views/Order/GetServiceChangeList"),
+        meta: { title: '补加单' },
+
+      },
+      {
+        path: "/Order/GetDocumentCount",
+        component: () => import("../views/Order/GetDocumentCount"),
+        meta: { title: '退款单' },
+
+      },
+      {
+        path: "/Order/GetFeedBackList",
+        component: () => import("../views/Order/GetFeedBackList"),
+        meta: { title: '问题单' },
+      },
+       {
+        path: "/Master/MasterList",
+        component: () => import("../views/Master/MasterList"),
+        meta: { title: '师傅列表' },
+      },
+      {
+        path: "/Master/Workteam",
+        component: () => import("../views/Master/Workteam"),
+        meta: { title: '团队管理' },
+      },
+      {
+        path: "/Merchantmanagement/PersonBase",
+        component: () => import("../views/Merchantmanagement/PersonBase"),
+        meta: { title: '资料管理' },
+      },
+      { path: "/Order", redirect: "/Order/GetMerchantOrderList" },
       { path: "", redirect: "/home" }
       //   //订单详情
       //   {
@@ -138,7 +135,6 @@ const router = new Router
     routes: routes
   });
 router.beforeEach((to, from, next) => {
-  console.log(to.meta.requireAuth)
   if (to.meta.requireAuth) {
     if (Store.state.user.userCtx.token) {
       next()

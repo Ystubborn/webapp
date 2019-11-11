@@ -79,19 +79,19 @@ export default {
                             title: '客户订单'
                         },
                         {
-                            index: '/ho/surchargelist',
+                            index: '/Order/GetAdditionFeeList',
                             title: '附加费单'
                         },
                         {
-                            index: '/ho/supplementprice',
+                            index: '/Order/GetServiceChangeList',
                             title: '补价单'
                         },
                         {
-                            index: '/ho/refundslip',
+                            index: '/Order/GetDocumentCount',
                             title: '退款单'
                         },
                         {
-                            index: '/ho/questionsheet',
+                            index: '/Order/GetFeedBackList',
                             title: '问题单'
                         },
                     ]
@@ -115,8 +115,33 @@ export default {
                         },
                         
                     ]
+                },
+            {
+                    icon: 'el-icon-lx-copy',
+                    index: '4',
+                    title: '师傅管理',
+                    subs: [
+                        {
+                            index: '/Master/MasterList',
+                            title: '师傅列表'
+                        },
+                         {
+                            index: '/Master/Workteam',
+                            title: '团队管理'
+                        },
+                    ]
+                },
+                {
+                    icon: 'el-icon-lx-copy',
+                    index: '5',
+                    title: '商家管理',
+                    subs: [
+                        {
+                            index: '/Merchantmanagement/PersonBase',
+                            title: '资料管理'
+                        },
+                    ]
                 }
-                
             ]
         };
     },

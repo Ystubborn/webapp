@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2019-11-08 22:13:35
- * @LastEditTime: 2019-11-10 18:03:01
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /webapp/webapp/src/components/common/Home.vue
- -->
 <template>
     <div class="wrapper">
         <VHeader></VHeader>

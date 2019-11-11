@@ -28,7 +28,6 @@ axios.interceptors.request.use(config => {
     tokenID=store.state.user.userCtx.token;
   }
   config.headers["X-Token"]=tokenID
-  console.log(config.headers)
   return config;
 }, error => {
   console.log(error)
@@ -39,13 +38,11 @@ axios.interceptors.request.use(config => {
   return Promise.reject(error);
 });
 axios.interceptors.response.use(data => {
-  console.log(data)
   CloseLoading();
   if (data.data.statusCode == -1) {
     Message.warning({ message:data.data.message })
     return Promise.reject(data);
   } else if (data.data.statusCode ==1) {
-    console.log(data)
     Message.success({ message:data.data.message})
   }
   return data;

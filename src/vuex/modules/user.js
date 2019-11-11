@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2019-11-09 19:11:30
- * @LastEditTime: 2019-11-10 20:14:12
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /webapp/src/vuex/modules/user.js
- */
 import Vue from 'vue';
 import { login } from "../../extends/services";
 import router from "@/router";
