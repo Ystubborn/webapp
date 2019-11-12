@@ -3,7 +3,7 @@
         <VHeader></VHeader>
         <v-sidebar></v-sidebar>
         <div class="content-box" :class="{'content-collapse':collapse}">
-            <!-- <TagHead></TagHead> -->
+            <TagHead></TagHead>
             <div class="content">
                 <!-- <transition name="move" mode="out-in">
                     <keep-alive :include="tagsList"> -->
@@ -18,7 +18,7 @@
 <script>
 import VHeader from "../components/common/Header"
 import VSidebar from '../components/common/Sidebar'
-// import TagHead from '../components/common/Tags'
+import TagHead from '../components/common/Tags'
 import bus from '../components/common/bus'
 export default {
     data(){
@@ -30,7 +30,7 @@ export default {
     components:{
         VHeader,
         VSidebar,
-        // TagHead
+        TagHead
     },
     created() {
         bus.$on('collapse-content', msg => {

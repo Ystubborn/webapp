@@ -12,6 +12,7 @@
     </div>
 </template>
 <script>
+import { Module } from 'module'
 export default {
     data(){
         return {
@@ -63,6 +64,9 @@ export default {
 
             ]
         }
+    },
+    created(){
+        
     }
 }
 </script>

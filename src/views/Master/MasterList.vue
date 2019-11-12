@@ -1,37 +1,29 @@
 <template>
   <div>
     <el-table>
-        <el-table-column
-          v-for="info in column" :key="info.key"     
-          :property="info.dataIndex"
-          :label="info.title"
-         >
-             <template slot-scope="scope">
-                   {{scope.row[scope.column.property]}}  <!-- 渲染对应表格里面的内容 -->
-              </template>
-          </el-table-column>
-          <el-table-column label="启用状态">
-                <template slot-scope="scope">
-                        <el-switch
-                          v-model="scope.row.ifUse"
-                          :active-color="ACT_COLOR"
-                          :inactive-color="INACT_COLOR">
-                        </el-switch>
-                  </template>
-             </el-table-column>
+      <el-table-column v-for="info in column" :key="info.key" :property="info.dataIndex" :label="info.title">
+        <template slot-scope="scope">
+          {{scope.row[scope.column.property]}}
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import {mapActions} from 'vuex';
 export default {
 	data() {
 		return {
-      getData:{
-        organizationID:'425035663272972289',
-        phone:'13999703224'
-      },
+			getData: {
+				id: '',
+				merchantID: '',
+				pageIndex: 0,
+				pageSize: 0,
+				masterName: '',
+				masterPhone: '',
+				profield: ''
+			},
 			column: [
 				{
 					title: '师傅ID',
@@ -73,15 +65,23 @@ export default {
 					dataIndex: 'd',
 					key: 'd'
 				}
-      ]
-      
+			]
 		};
-  },
-  created(){
-this.MasterSearch(this.getData)
-  },
-  methods:{
-    ...mapActions("list",['MasterSearch'])
-  }
+	},
+	created() {
+		let data = {
+			id: '',
+			merchantID: '',
+			pageIndex: 0,
+			pageSize: 0,
+			masterName: '',
+			masterPhone: '',
+			profield: ''
+		};
+		this.GetMasterList(data);
+	},
+	methods: {
+		...mapActions('list', ['GetMasterList'])
+	}
 };
 </script>
