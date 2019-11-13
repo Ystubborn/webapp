@@ -11,7 +11,8 @@ import VueAxios from 'vue-axios';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
-
+import Enum from './extends/Enum'
+Vue.prototype.Enum = Enum
 Vue.config.productionTip = false
 Vue.use({
   install: (Vue) => {

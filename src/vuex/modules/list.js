@@ -9,6 +9,7 @@ const store = {
     feedBackShowListDTO: [],
     additionalFeeShowListDTO: [],
     data: [],
+    masterShowDTOList: [],
     additionalCount: 0,
     changeCount: 0,
     complaintCount: 0,
@@ -25,6 +26,7 @@ const mutations = {
         store.feedBackShowListDTO = payload.feedBackShowListDTO ? payload.feedBackShowListDTO : []
         store.additionalFeeShowListDTO = payload.additionalFeeShowListDTO ? payload.additionalFeeShowListDTO : []
         store.data = payload.data ? payload.data : []
+        store.masterShowDTOList = payload.masterShowDTOList ? payload.masterShowDTOList : []
         store.additionalCount = payload.additionalCount ? payload.additionalCount : 0
         store.changeCount = payload.changeCount ? payload.changeCount : 0
         store.complaintCount = payload.complaintCount ? payload.complaintCount : 0
@@ -66,7 +68,6 @@ const actions = {
     },
     MasterSearch(action, payload) {
         Team('MasterSearch', 'GET', payload).then(res => {
-            console.log(res)
         })
     },
     GetAdditionFeeList(action, payload) {
@@ -109,9 +110,15 @@ const actions = {
             })
         })
     },
-    GetMasterList(action,payload){
-        Master('GetMasterList','POST',payload).then(res => {
-            console.log(res)
+    GetMasterList(action, payload) {
+        Master('GetMasterList', 'POST', payload).then(res => {
+            action.commit("setInfo", {
+                masterShowDTOList: res.data.data.masterShowDTOList,
+                pageIndex: res.data.data.pageIndex,
+                pageSize: res.data.data.pageSize,
+                totalCount: res.data.data.totalCount,
+                totalPage: res.data.data.totalPage
+            })
         })
     }
 }

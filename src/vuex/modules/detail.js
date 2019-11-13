@@ -12,7 +12,9 @@ const store = {
 }
 const mutations = {
     setGMeODInfo(store, payload) {
+        console.log(store)
         store.GMeOD = payload.info
+        
     },
     setGMaODInfo(store,payload){
         store.GMaOD=payload.info
@@ -22,6 +24,9 @@ const mutations = {
     },
     setGSeCInfo(store, payload) {
         store.GSeC = payload.info
+    },
+    setGAdFInfo(store, payload) {
+        store.GAdF = payload.info
     },
 }
 const actions = {
@@ -41,12 +46,17 @@ const actions = {
             action.commit({ type: "setGFeBInfo", info: res.data.data })
         })
     },
-  GetServiceChangeInfo(action,payload){
-    OrderProcess('GetServiceChangeInfo','GET',payload).then(res => {
-        action.commit({ type: "setGSeCInfo", info: res.data.data })
-    })
-  },
-},
+    GetServiceChangeInfo(action,payload){
+        OrderProcess('GetServiceChangeInfo','GET',payload).then(res => {
+            action.commit({ type: "setGSeCInfo", info: res.data.data })
+        })
+    },
+    GetAdditionFeeInfo(action,payload){
+        OrderProcess('GetAdditionFeeInfo','GET',payload).then(res => {
+            action.commit({ type: "setGAdFInfo", info: res.data.data })
+        })
+    },
+}
 export default {
     namespaced: true,
     store,

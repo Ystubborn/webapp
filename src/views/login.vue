@@ -47,7 +47,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$store)
   	// this.$store.commit('userCtx', {});
   	// sessionStorage.clear();
   },
@@ -55,7 +54,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="less">
 .login {
   position: fixed;
   height: 100%;

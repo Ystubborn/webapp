@@ -39,6 +39,7 @@ a {
     width: auto;
     height: 100%;
     padding: 10px;
+    overflow-x: hidden;
     overflow-y: scroll;
     box-sizing: border-box;
 }

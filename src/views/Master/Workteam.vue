@@ -59,6 +59,8 @@ export default {
 	},
 	created() {
 		this.GetTeamList(this.setData);
+		let a=/^\/api\/file\/Upload+/i
+		console.log(a.test("/api/file/Upload"))
 	},
 	methods: {
 		...mapActions('list', ['GetTeamList']),

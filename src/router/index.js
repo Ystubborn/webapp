@@ -29,25 +29,39 @@ const routes = [
         component: () => import("../views/Order/GetMerchantOrderList"),
         meta: {
           title: '商户订单',
-          requireAuth: true
+          requireAuth: true,
         },
       },
+      {
+        path: "/Order/OrderDetails",
+        component: () => import("../views/Order/OrderDetails.vue"),
+        meta: { title: '商户订单详情' },
+      },
+
       {
         path: "/Order/GetAdditionFeeList",
         component: () => import("../views/Order/GetAdditionFeeList"),
         meta: { title: '附加费' },
       },
       {
+        path: "/OrderProcess/GetAdditionFeeInfo",
+        component: () => import("../views/OrderProcess/AdditionFeeInfo"),
+        meta: { title: '附加费详情' },
+      },
+      {
         path: "/Order/GetServiceChangeList",
         component: () => import("../views/Order/GetServiceChangeList"),
         meta: { title: '补加单' },
-
+      },
+      {
+        path: "/OrderProcess/PremiumDetails",
+        component: () => import("../views/OrderProcess/PremiumDetails.vue"),
+        meta: { title: '补加单详情' },
       },
       {
         path: "/Order/GetDocumentCount",
         component: () => import("../views/Order/GetDocumentCount"),
         meta: { title: '退款单' },
-
       },
       {
         path: "/Order/GetFeedBackList",
@@ -60,12 +74,17 @@ const routes = [
         meta: { title: '师傅列表' },
       },
       {
+        path: "/Master/Masterdetail",
+        component: () => import("../views/Master/Masterdetail"),
+        meta: { title: '团队管理详情' },
+      },
+      {
         path: "/Master/Workteam",
         component: () => import("../views/Master/Workteam"),
         meta: { title: '团队管理' },
       },
       {
-        path: "/Master/Wtdetail/:id",
+        path: "/Master/Wtdetail",
         component: () => import("../views/Master/Wtdetail"),
         meta: { title: '团队管理详情' },
       },

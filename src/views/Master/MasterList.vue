@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-table>
-      <el-table-column v-for="info in column" :key="info.key" :property="info.dataIndex" :label="info.title">
+    <el-table :data="list" @row-click="handleSelectionChange" v-cloak>
+      <el-table-column v-for="info in column" :key="info.key" :property="info.key" :label="info.title">
         <template slot-scope="scope">
           {{scope.row[scope.column.property]}}
         </template>
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapActions, mapState} from 'vuex';
 export default {
 	data() {
 		return {
@@ -27,44 +27,38 @@ export default {
 			column: [
 				{
 					title: '师傅ID',
-					dataIndex: 'unitName',
-					key: 'unitName'
+					key: 'masterID'
 				},
 				{
 					title: '姓名',
-					dataIndex: 'price',
-					key: 'price'
+					key: 'name'
 				},
 				{
 					title: '电话',
-					dataIndex: 'qty',
-					key: 'qty'
+					key: 'phone'
 				},
-				{
-					title: '服务区域',
-					dataIndex: 'amount',
-					key: 'amount'
-				},
+				// {
+				// 	title: '服务区域',
+				// 	key: 'serviceAreaDTO.regionName '
+				// },
 				{
 					title: '服务类型',
-					dataIndex: 'a',
-					key: 'a'
+					key: 'profield_Txt'
 				},
 				{
 					title: '保证金',
-					dataIndex: 'b',
-					key: 'b'
-				},
-				{
-					title: '此处空白',
-					dataIndex: 'c',
-					key: 'c'
-				},
-				{
-					title: '认证状态',
-					dataIndex: 'd',
-					key: 'd'
+					key: 'marginAmount'
 				}
+				// {
+				// 	title: '此处空白',
+				// 	dataIndex: 'c',
+				// 	key: 'c'
+				// },
+				// {
+				// 	title: '认证状态',
+				// 	dataIndex: 'd',
+				// 	key: 'd'
+				// }
 			]
 		};
 	},
@@ -79,9 +73,23 @@ export default {
 			profield: ''
 		};
 		this.GetMasterList(data);
+		console.log(this.list);
 	},
 	methods: {
-		...mapActions('list', ['GetMasterList'])
+		...mapActions('list', ['GetMasterList']),
+		handleSelectionChange(e) {
+			this.$router.push({path:`/Master/Masterdetail/`,query:{id:e.masterID}});
+		}
+	},
+	computed: {
+		...mapState({
+			list: state => state.list.masterShowDTOList
+		})
 	}
 };
 </script>
+<style lang="less" scoped>
+[v-cloak] {
+	display: none !important;
+}
+</style>

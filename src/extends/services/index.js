@@ -50,7 +50,7 @@ export const Wallet = (opt, met, res) => {
     }
 }
 //师傅
-export const Master = (opt, met, res) => {
+export  const  Master = (opt, met, res) => {
     if (met == "GET") {
         return axios(`/api/Master/${opt}`, { params: res })
     } else {

@@ -42,10 +42,14 @@
       </div>
       <!-- 附加费列表 -->
       <div>
-        <el-table :data="rightsDate" border stripe height="713">
-          <el-table-column type="selection" width="55">
+        <el-table :data="rightsDate" 
+          border 
+          stripe
+          @row-click="fromDetailsdblClick"
+        >
+          <el-table-column type="selection">
           </el-table-column>
-        <!-- 设置表头数据源，并循环渲染出来，property对应列内容的字段名，详情见下面的数据源格式 -->
+          <!-- 设置表头数据源，并循环渲染出来，property对应列内容的字段名，详情见下面的数据源格式 -->
           <el-table-column v-for="info in rightHeader" :key="info.key" :property="info.key" :label="info.label">
             <template slot-scope="scope">
             {{scope.row[scope.column.property]}}
@@ -114,8 +118,8 @@ export default {
             }
           }]
       },
+      //订单状态表头和状态码
       orderService: [
-				//订单状态表头
 				{
 					titie: '全部',
 					val:'0'
@@ -182,19 +186,17 @@ export default {
 				// 	label: '安装人员',
 				// 	key: 'masteName'
 				// },
-				{
-					label: '附加费审核状态',
-					key: 'auditStatus_txt'
-				}
+				// {
+				// 	label: '附加费审核状态',
+				// 	key: 'auditStatus_txt'
+				// }
       ],
       //列表数据
 			rightsDate: []
-
     };
   },
   created() {    
       OrderProcess('GetAdditionFeeList', 'GET', this.setData).then(res => {
-				console.log(res.data.data);
 				this.rightsDate = res.data.data.additionalFeeShowListDTO;
 				this.setData.total = res.data.data.totalCount
 			});
@@ -214,9 +216,7 @@ export default {
     //订单状态查询
     orderServiceClick(val){
 			this.setData.status = val
-			console.log(this.setData.orderStatus)
 			OrderProcess('GetAdditionFeeList', 'GET', this.setData).then(res => {
-				console.log(res.data.data);
 				this.rightsDate = res.data.data.additionalFeeShowListDTO;
 				this.setData.total = res.data.data.totalCount
 			});
@@ -224,13 +224,18 @@ export default {
     	//请求分页器要求的页数商户列表
     handleCurrentChange(val) {
 			this.setData.pageIndex = val
-			console.log(this.setData)
 			OrderProcess('GetAdditionFeeList', 'GET', this.setData).then(res => {
-				console.log(res.data.data);
 				this.rightsDate = res.data.data.additionalFeeShowListDTO;
 				this.setData.total = res.data.data.totalCount
 			});
-		},
+    },
+    fromDetailsdblClick(e){
+      // console.log(123)
+      this.$router.push({
+          path:'/OrderProcess/GetAdditionFeeInfo',
+          query:{data:e.orderAdditionalFeeID}
+        })
+    }
   }
 };
 </script>

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <el-table :data="list">
+	  补价单
+    <el-table :data="list" @row-dblclick="fromDetailsClick">
       <el-table-column v-for="info in column" :key="info.key" :property="info.key" :label="info.title">
         <template slot-scope="scope">
           {{scope.row[scope.column.property]}}
@@ -24,7 +25,7 @@ export default {
 			column: [
 				{
 					title: '创建日期',
-					key: 'changeDate'
+					key: 'createTime'
 					// render: text => <a>{text}</a>,
 				},
 				{
@@ -37,7 +38,7 @@ export default {
 				},
 				{
 					title: '商户',
-					key: 'merchantID'
+					key: 'merchantName'
 				},
 				{
 					title: '商户单号',
@@ -61,14 +62,22 @@ export default {
 	created() {
 		let setData = this.setData;
 		this.GetServiceChangeList(setData)
-		console.log(this.list.serviceChangeListDTO)
+		// console.log(this.list.serviceChangeListDTO)
 	},
 	methods: {
 		...mapActions('list', ['GetServiceChangeList']),
+		fromDetailsClick(e){
+			this.$router.push({
+				path:'/OrderProcess/PremiumDetails',
+				query:{
+					data:e.serviceChangeID
+				}
+			})
+		}
 	},
 	computed:{
 		...mapState({
-		list:state => state.list.serviceChangeListDTO	
+			list:state => state.list.serviceChangeListDTO	
 		})
 	}
 };
