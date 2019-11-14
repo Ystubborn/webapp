@@ -82,7 +82,9 @@ const actions = {
         })
     },
     GetServiceChangeList(action, payload) {
+        
         OrderProcess('GetServiceChangeList', 'GET', payload).then(res => {
+            console.log(res)
             action.commit("setInfo", {
                 serviceChangeListDTO: res.data.data.serviceChangeListDTO,
                 pageIndex: res.data.data.pageIndex,
@@ -95,12 +97,13 @@ const actions = {
     GetFeedBackList(action, payload) {
         OrderProcess('GetFeedBackList', 'GET', payload).then(res => {
             action.commit("setInfo", {
-                feedBackShowListDTO: res.data.data.feedBackShowListDTO[0],
+                feedBackShowListDTO: res.data.data.feedBackShowListDTO,
                 pageIndex: res.data.data.pageIndex,
                 pageSize: res.data.data.pageSize,
                 totalCount: res.data.data.totalCount,
                 totalPage: res.data.data.totalPage
             })
+            console.log(1)
         })
     },
     GetTeamList(action, payload) {

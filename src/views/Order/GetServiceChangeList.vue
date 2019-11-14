@@ -61,7 +61,7 @@ export default {
 	},
 	created() {
 		let setData = this.setData;
-		this.GetServiceChangeList(setData)
+	this.GetServiceChangeList(setData)
 		// console.log(this.list.serviceChangeListDTO)
 	},
 	methods: {

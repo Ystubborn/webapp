@@ -9,7 +9,6 @@
     </el-table>
   </div>
 </template>
-
 <script>
 import {mapActions, mapState} from 'vuex';
 export default {
@@ -88,8 +87,3 @@ export default {
 	}
 };
 </script>
-<style lang="less" scoped>
-[v-cloak] {
-	display: none !important;
-}
-</style>

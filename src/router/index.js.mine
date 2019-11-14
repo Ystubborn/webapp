@@ -36,36 +36,6 @@ const routes = [
         path: "/Order/OrderDetails",
         component: () => import("../views/Order/OrderDetails.vue"),
         meta: { title: '商户订单详情' },
-        children: [
-          {
-            path: "/Order/OrderMerchantDetail/AddDetail",
-            component: () => import("../views/Order/OrderMerchantDetail/AddDetail.vue"),
-            meta: {
-              title: '附加费详情'
-            }
-          },
-          {
-            path: "/Order/OrderMerchantDetail/BootDetail",
-            component: () => import("../views/Order/OrderMerchantDetail/BootDetail.vue"),
-            meta: {
-              title: '补价详情'
-            }
-          },
-          {
-            path: "/Order/OrderMerchantDetail/OrderDetail",
-            component: () => import("../views/Order/OrderMerchantDetail/OrderDetail.vue"),
-            meta: {
-              title: "订单详情"
-            }
-          },
-          {
-            path: "/Order/OrderMerchantDetail/QuotedDetail",
-            component: () => import("../views/Order/OrderMerchantDetail/QuotedDetail.vue"),
-            meta: {
-              title: '报价详情'
-            }
-          },
-        ]
       },
 
       {
@@ -87,7 +57,6 @@ const routes = [
         path: "/OrderProcess/PremiumDetails",
         component: () => import("../views/OrderProcess/PremiumDetails.vue"),
         meta: { title: '补加单详情' },
-
       },
       {
         path: "/Order/GetDocumentCount",
@@ -100,11 +69,6 @@ const routes = [
         meta: { title: '问题单' },
       },
       {
-        path: "/OrderProcess/FeedBackInfo",
-        component: () => import("../views/OrderProcess/FeedBackInfo.vue"),
-        meta: { title: '问题单详情' },
-      },
-      {
         path: "/Master/MasterList",
         component: () => import("../views/Master/MasterList"),
         meta: { title: '师傅列表' },
@@ -112,7 +76,7 @@ const routes = [
       {
         path: "/Master/Masterdetail",
         component: () => import("../views/Master/Masterdetail"),
-        meta: { title: '师傅信息' },
+        meta: { title: '团队管理详情' },
       },
       {
         path: "/Master/Workteam",
@@ -134,7 +98,7 @@ const routes = [
         component: () => import("../views/Merchantmanagement/PersonBase"),
         meta: { title: '资料管理' },
       },
-      { path: "*", redirect: "/home" }
+      { path: "*", redirect: "/home"}
     ]
   },
 ];

@@ -1,0 +1,117 @@
+<template>
+  <div>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="全部" name="0" />
+      <el-tab-pane label="处理中" name="1" />
+      <el-tab-pane label="已处理" name="2" />
+    </el-tabs>
+    <el-table :data="list">
+      <el-table-column
+        v-for="info in column"
+        :key="info.key"
+        :property="info.key"
+        :label="info.title"
+      >
+        <template slot-scope="scope">{{scope.row[scope.column.property]}}</template>
+      </el-table-column>
+    </el-table>
+     <el-button plain>进入问题详情</el-button>
+  </div>
+</template>
+<script>
+import { mapActions, mapState } from "vuex";
+export default {
+  data() {
+    return {
+      //列表交互数据
+      activeName: "0",
+      data: {
+        userID: "uid_7483a5012f7bf9ac1a000000",
+        status: 0,
+        pageIndex: "1",
+        pageSize: "1"
+      },
+      column: [
+        {
+          title: "单据编号",
+          dataIndex: "orderID",
+          key: "orderID"
+        },
+        {
+          title: "提交日期",
+          dataIndex: "orderDate",
+          key: "orderDate"
+        },
+        {
+          title: "发起方",
+          dataIndex: "merchantName",
+          key: "merchantName"
+        },
+        {
+          title: "客户",
+          dataIndex: "customerName",
+          key: "customerName"
+        },
+        {
+          title: "电话",
+          dataIndex: "customerPhone",
+          key: "customerPhone"
+        },
+        {
+          title: "地址",
+          dataIndex: "customerAddress",
+          key: "customerAddress"
+        },
+        {
+          title: "问题类型",
+          dataIndex: "feedType",
+          key: "feedType"
+        },
+        {
+          title: "处理状态",
+          dataIndex: "handleStatus",
+          key: "handleStatus"
+        }
+      ]
+    };
+  },
+  created() {
+    let setData = this.data;
+    this.GetFeedBackList(setData);
+  },
+  methods: {
+    ...mapActions("list", ["GetFeedBackList"]),
+    handleClick(e) {
+      this.data.status = e.name;
+      this.GetFeedBackList(this.data);
+    }
+  },
+  watch: {
+    setData(v) {
+      console.log(v);
+    }
+  },
+  computed: {
+    ...mapState({
+      list: state => state.list.feedBackShowListDTO
+    }),
+    setData() {
+      return this.data;
+    }
+  }
+};
+</script>
+<style lang="less" scoped>
+.backlisttop{
+  display: flex;
+  li{
+    flex: 1;
+    border: 1px solid #333;
+    border-left:none;
+    text-align: center;
+    &:first-child{
+      border-left: 1px solid #333;
+    }
+  }
+}
+</style>

@@ -4,11 +4,6 @@ import stores from "../index";
 import Vuex from 'vuex';
 Vue.use(Vuex);
 const store = {
-    GMOL:{},
-    GAFL:{},
-    GSCL:{},
-    GFBL:{},
-    GDC:{}
 }
 const mutations = {
     setGMeODInfo(store, payload) {
@@ -33,6 +28,7 @@ const actions = {
     /*-详情-*/
     GetMerchantOrderDetail(action,payload){
         Order('GetMerchantOrderDetail','GET',payload).then(res =>{
+            console.log(res)
             action.commit({ type: "setGMeODInfo", info: res.data.data })
         })
     },

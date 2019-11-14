@@ -3,14 +3,14 @@
         <VHeader></VHeader>
         <v-sidebar></v-sidebar>
         <div class="content-box" :class="{'content-collapse':collapse}">
-            <!-- <TagHead></TagHead> -->
+            <TagHead></TagHead>
             <div class="content">
-                <!-- <transition name="move" mode="out-in">
-                    <keep-alive :include="tagsList"> -->
+                <transition name="move" mode="out-in">
+                    <keep-alive :include="tagsList">
                         <router-view></router-view>
-                    <!-- </keep-alive>
-                </transition> -->
-                <!-- <el-backtop target=".content"></el-backtop> -->
+                    </keep-alive>
+                </transition> 
+                <el-backtop target=".content"></el-backtop>
             </div>
         </div>
     </div>
@@ -18,7 +18,7 @@
 <script>
 import VHeader from "./Header"
 import VSidebar from './Sidebar'
-//import TagHead from './Tags'
+import TagHead from './Tags'
 import bus from './bus'
 export default {
     data(){

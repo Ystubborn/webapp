@@ -6,7 +6,7 @@
         <li v-for="(item ,i) in orderService" :key="i" @click="orderServiceClick(item.val)">{{item.titie}}</li>
       </ul>
     </div>
-    <vhr></vhr>
+    <!-- <vhr></vhr> -->
 	<!-- 搜索商户订单 -->
     <div class="option">	
 		<!-- SearchMerchantOrderList -->
@@ -84,7 +84,7 @@ export default {
 			alList: this.$store.state.list,
 			//列表交互数据
 			setData: {
-				merchantID: 'uid_7483a5012f7bf9ac1a000000',
+				merchantID: '',
 				pageIndex: 1,
 				pageSize: 15,
 				total: 1,
@@ -92,6 +92,8 @@ export default {
 				startDate:'',
 				endDate:''
 			},
+			//获取的订单ID
+			getData:[],
 			value: '',
 			statevalue: '',
 			stateValueTwo: '',
@@ -104,12 +106,14 @@ export default {
 					val:''
 				},
 				{
-					titie: '待报价',	//报价中
+					titie: '待报价',	
+					// val:this.Enum.OrderFlowStatus.dai_bao_jia.key
 					val:'inTheQuotation'
 				},
 				{
 					titie: '待预约',
-					val:'makeAppointment'
+					val:'makeAppointment',
+					// val:this.Enum.OrderFlowStatus.ke_hu_dai_yu_yue.key
 				},
 				{
 					titie: '待提货',
@@ -233,10 +237,11 @@ export default {
 	},
 	created() {
 		Order('GetMerchantOrderList', 'GET', this.setData).then(res => {
+			// console.log(res.data)
 			this.rightsDate = res.data.data.orderShowDTOList;
 			this.setData.total = res.data.data.totalCount
 		});
-		console.log(this.Enum.Owner_Order.fu_wu_yi_wan_gong);
+		// console.log(this.Enum.OrderFlowStatus.dai_bao_jia.key);
 	},
 	methods: {
 		...mapActions('list', ['GetMerchantOrderList']),
@@ -286,14 +291,21 @@ export default {
 				}
 			})
 		},
-		//当选中一行数据时解开删除按钮禁用功能
+		//当选中一行数据时
 		disable(row){
+			//删除按钮的禁用功能
 			if(row){
-				this.disabled = false
+				this.disabled = false;
+				// console.log(row)
+				this.getData = row
+				console.log(this.getData)
+				// this.getData = row[row.length-1].orderID
+				console.log(this.getData)
 			}else{
 				this.disabled = true
 			}
-			
+
+			// console.log(this.getData)
 		},
 		//下载按钮
 		downloadClick(){
@@ -312,7 +324,21 @@ export default {
 		},
 		// 复制当前信息创建一个新的订单
 		copyAddClick(){
-
+			
+			if(this.getData.length === 1){
+				this.$router.push({
+				path:'/Order/OrderDetails',
+				query:{
+					data:this.getData[0].orderID
+				}
+			})
+			}else{
+				this.$message({
+					message: '只能选择一条数据',
+					type: 'warning'
+				});
+			}
+			
 		},
 		//创建一个新的
 		addClick(){

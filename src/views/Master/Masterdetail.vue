@@ -143,9 +143,7 @@
                   <el-input style="width:300px"></el-input>
                   <el-button type="warning">缴纳保证金</el-button>
                 </el-form-item>
-
               </div>
-
             </div>
           </div>
         </el-form>
@@ -255,14 +253,12 @@ export default {
 		handleClose(tag) {
 			this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
 		},
-
 		showInput() {
 			this.inputVisible = true;
 			this.$nextTick(_ => {
 				this.$refs.saveTagInput.$refs.input.focus();
 			});
 		},
-
 		handleInputConfirm() {
 			let inputValue = this.inputValue;
 			if (inputValue) {

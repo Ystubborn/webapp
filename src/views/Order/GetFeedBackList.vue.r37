@@ -31,16 +31,17 @@
   </div>
 </template>
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions } from "vuex";
 import {OrderProcess} from '../../extends/services';
 export default {
   data() {
     return {
+      //列表数据
+      alList:this.$store.state.list,
       //列表交互数据
-      activeName: "0",
-      data: {
+      setData: {
         userID: "",
-        status: 0,
+        status:0,
         pageIndex: 1,
         pageSize: 15,
         totalCount : 1
