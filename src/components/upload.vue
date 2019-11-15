@@ -1,162 +1,140 @@
 <template>
-  <div style="display:inline-block;vertical-align: middle" class="margin-right">
-    <el-upload :disabled="enable" :action="config.fsApiUrl+'FileInfo/AjaxUpload'" list-type="picture-card" :headers="{authCode:config.authCode,sysCode:config.sysCode,isThumbnail: false, isPrintText: false, isPrintPic: false }" :file-list="loadlist" :limit="limit" :multiple="multiple" :on-success="successEvent" :on-remove="removeEvent" :on-preview="handlePictureCardPreview" :before-upload="beforeAvatarUpload">
-      <i class="el-icon-plus"></i>
-    </el-upload>
-    <div v-if="visible" class="lookimages-panel">
-      <div class="close" @click="visible=!1"></div>
-      <div class="big-img">
-        <img :src="imageUrl">
-      </div>
-    </div>
+  <div style="padding: 50px;">
+    <el-form class="form-wrapper padding" ref="editForm" :model="editForm" :rules="editRules" label-width="110px">
+      <el-form-item label="" prop="photo">
+        <el-upload :action="base" multiple accept="image/png, image/jpeg" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-progress="uploadProgress" :on-success="uploadSuccess" :on-error="uploadError" :file-list="editFiles" :show-file-list="true">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+      </el-form-item>
+      <el-form-item>
+        <!-- <el-button type="primary" @click="editEnsure">保存</el-button> -->
+      </el-form-item>
+    </el-form>
+    <el-dialog class="preview-modal" :visible.sync="imgVisible" append-to-body>
+      <img width="100%" :src="dialogImageUrl" alt="photo">
+    </el-dialog>
   </div>
 </template>
-<style lang="less">
-.el-upload--picture-card,
-.el-upload-list--picture-card .el-upload-list__item {
-	width: 86px;
-	height: 86px;
-}
-.el-upload--picture-card {
-	line-height: 86px;
-}
-.lookimages-panel {
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 3000;
-	background-color: #000;
-	.close {
-		width: 30px;
-		height: 30px;
-		line-height: 0;
-		background-color: rgba(0, 0, 0, 0.3);
-		border-radius: 50%;
-		position: absolute;
-		left: 50%;
-		top: 50%;
-		margin-top: -335px;
-		margin-left: 365px;
-		z-index: 3002;
-		&::before {
-			content: '\E60F';
-			font-size: 22px;
-			line-height: 30px;
-			font-family: element-icons !important;
-			color: #ccc;
-			cursor: pointer;
-		}
-	}
-	.big-img {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 800px;
-		height: 600px;
-		overflow: auto;
-		z-index: 3001;
-		margin-left: -400px;
-		margin-top: -340px;
-		box-sizing: border-box;
-		&::-webkit-scrollbar {
-			width: 0px;
-		}
-		img {
-			width: 100%;
-		}
-	}
-}
-</style>
-
-<script>
+<script type="text/ecmascript-6">
+//   import base from 'api/env' // 配置了图片上传接口地址的js文件
+import {mapMutations,mapState,setGetters, mapGetters} from 'vuex';
+import { async } from 'q';
+import detail from '../vuex/modules/detail';
 export default {
+	computed:{
+		...mapState({imgs:state => state.detail.imgUrls}),
+	},
 	data() {
 		return {
-			// config:{},
-			config: this.$store.state.detail.userCtx.upApi,
-			imageUrl: '',
-			visible: false,
-			filelist: [],
-			loadlist: []
+			UploadFiles:"http://apifile.zys6d.cn",//文件服务器地址
+			editForm: {
+			},
+			editRules: {
+				// 表单验证规则
+				photo: [{required: true, message: '请上传活动图片', trigger: 'blur'}]
+			},
+			editFiles: [], // 编辑时已上传图片初始化
+			uploadComplete: true,
+			// base: base.imgURL + 'upload/img',
+			base: 'upload/img',
+			imgVisible: false, // 上传图片预览
+			dialogImageUrl: '', // 图片预览地址
 		};
 	},
-	props: {
-		limit: {},
-		value: {},
-		disabled: {},
-		size: {default: 0},
-		multiple: {default: true}
-	},
 	created() {
-		// this.getUrl(this.value.id);
+		console.log(this.imgs)
+		// console.log(this.imgUrls)	
+		// this.imgs = this.imageUrls
+		this.initInfo();
+		// console.log(this.imgs)
 	},
-	computed: {
-		enable() {
-			return typeof (this.disabled == 'boolean') ? this.disabled : false;
-		}
+	mounted(){
+
 	},
 	methods: {
-		beforeAvatarUpload(file) {
-			if (this.size == 0) {
-				return true;
-			}
-			const isLt2M = file.size / 1024 < this.size;
-			if (!isLt2M) {
-				this.$message.error('上传头像图片大小不能超过 ' + this.size + 'KB!');
-			}
-			return isLt2M;
+		// 编辑
+		...mapMutations('detail',["imgs"]),
+		initInfo() {
+			// 这里photo应从服务器获取，存储的是数组，请按照相应格式获取图片url（这里直接给值）
+			// console.log(this.$store.state.detail.imgUrls)
+			console.log(this.imgs)
+			this.$forceUpdate()
+			// if (this.imageUrls.length > 0) {
+			// 	for (let t = 0; t < this.imageUrls.length; t++) {
+			// 		//通过[{name: 'name', url: 'url地址'}]格式初始化照片墙
+			// 		this.editFiles.push({url: this.UploadFiles + this.imageUrls[t] });
+			// 		// if (t === 0) {
+			// 		// 	this.editForm.photo += temp[t].index;
+			// 		// } else {
+			// 		// 	// 最终photo的格式是所有已上传的图片的url拼接的字符串（逗号隔开），根据实际需要修改格式
+			// 		// 	this.editForm.photo += ',' + temp[t].index;
+			// 		// }
+			// 	}
+			// }
+			// this.editVisible = true;
 		},
+		// 确认修改
+		// editEnsure() {
+		// 	if (!this.uploadComplete) {
+		// 		this.$message.error('图片正在上传，请稍等');
+		// 		return;
+		// 	}
+		// 	console.info(this.editForm.photo);
+		// 	// 调用接口...
+		// },
+		// 上传图片前调用方法
+		beforeUploadPicture(file) {
+			if (file.size > 10 * 1024 * 1024) {
+				this.$message.error('上传图片不能大于10M');
+				return false;
+			}
+		},
+		// 上传图片时调用
+		uploadProgress(event, file, fileList) {
+			this.uploadComplete = false;
+		},
+		// 上传图片成功
+		uploadSuccess(res, file, fileList) {
+			this.uploadComplete = true;
+			this.fileChange(fileList);
+		},
+		// 上传图片出错
+		uploadError(err, file, fileList) {
+			this.$message.error('上传出错');
+		},
+		// 移除图片
+		handleRemove(file, fileList) {
+			this.fileChange(fileList);
+		},
+		// 设置photo值
+		fileChange(fileList) {
+			let temp_str = '';
+			if (fileList.length > 0) {
+				for (let i = 0; i < fileList.length; i++) {
+					if (fileList[i].response) {
+						if (fileList[i].response.code === 0) {
+							if (i === 0) {
+								temp_str += fileList[i].response.data;
+							} else {
+								temp_str += ',' + fileList[i].response.data;
+							}
+						}
+					} else if (fileList[i].status && fileList[i].status === 'success') {
+						if (i === 0) {
+							temp_str += fileList[i].url;
+						} else {
+							temp_str += ',' + fileList[i].url;
+						}
+					}
+				}
+			}
+			this.editForm.photo = temp_str;
+		},
+		// 图片预览
 		handlePictureCardPreview(file) {
-			this.imageUrl = file.url;
-			this.visible = true;
-		},
-		successEvent(file) {
-			let t = null;
-			if (this.filelist.length > 0) {
-				t = this._.find(this.filelist, o => {
-					return o.id === file.fileId;
-				});
-			}
-			if (t == null) {
-				this.filelist.push({
-					id: file.fileId,
-					name: file.fileName,
-					url: file.url,
-					size: file.fileSize
-				});
-			}
-		},
-		removeEvent(file, fileLists) {
-			this.comm.ArrayRemove(this.filelist, o => {
-				return o.size == file.size && o.name == file.name;
-			});
-		},
-		getUrl(data) {
-			let t = this;
-			if (this.comm.IsNullOrEmpty(data)) {
-				return;
-			}
-			if (data instanceof Array) {
-				data = data.join();
-			}
-			t.axios.post('/fileinfo', {fileId: data, thumbnail: false}).then(res => {
-				let srvData = res.data.operationResult.srvData;
-				let temp = [];
-				srvData.forEach(element => {
-					temp.push({id: element.fileId, name: '', url: element.url, size: 0});
-					t.loadlist.push({id: element.fileId, url: element.url});
-				});
-				t.filelist = temp;
-			});
-		}
-	},
-	watch: {
-		filelist(v) {
-			this.$emit('input', {id: _.map(this.filelist, 'id').join(), fname: _.map(this.filelist, 'name').join()});
+			this.dialogImageUrl = file.url;
+			this.imgVisible = true;
 		}
 	}
 };
 </script>
-

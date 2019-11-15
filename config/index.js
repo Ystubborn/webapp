@@ -12,11 +12,12 @@ module.exports = {
       '/api': {
       target: 'http://apidev.zys6d.cn',  // 通过本地服务器将你的请求转发到这个地址
       changeOrigin: true,  // 设置这个参数可以避免跨域
-      // pathRewrite: {
-      //   '/api': '/'
-      // }
       cookieDomainRewrite: {
         "*": ""
+      },
+      '/api/file/Upload':{
+        target:"http://apifile.zys6d.cn",
+        changeOrigin:true
       }
     },
   },

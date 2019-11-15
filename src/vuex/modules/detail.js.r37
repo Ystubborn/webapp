@@ -8,21 +8,13 @@ const store = {
     GAFL:{},
     GSCL:{},
     GFBL:{},
-    GDC:{},
-    imgUrls:[]
-}
-const getters={
-    imageUrls:{
-        get(){
-            return imgUrls
-        }
-        
-    }
+    GDC:{}
 }
 const mutations = {
     setGMeODInfo(store, payload) {
         console.log(store)
         store.GMeOD = payload.info
+        
     },
     setGMaODInfo(store,payload){
         store.GMaOD=payload.info
@@ -36,10 +28,6 @@ const mutations = {
     setGAdFInfo(store, payload) {
         store.GAdF = payload.info
     },
-    imgs(store,payload){
-        store.imgUrls = payload
-        // console.log(store.imgUrls)
-    }
 }
 const actions = {
     /*-详情-*/
@@ -73,6 +61,5 @@ export default {
     namespaced: true,
     store,
     mutations,
-    actions,
-    // getters
+    actions
 }

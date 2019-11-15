@@ -58,7 +58,8 @@ export default {
 	methods: {
 		jump(e) {
             if(e.$vnode.key){
-                let path=e.$vnode.key
+				let path=e.$vnode.key
+				console.log(path)
                 this.$router.push(`${path}`)
             }	
 		}

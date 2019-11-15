@@ -1,9 +1,8 @@
 <template>
     <div>
         补价单详情
-        
         <div>
-            <el-table :data="list" @row-dblclick="fromDetailsClick">
+            <el-table :data="list">
             <el-table-column v-for="info in column" :key="info.key" :property="info.key" :label="info.title">
                 <template slot-scope="scope">
                 {{scope.row[scope.column.property]}}
@@ -76,12 +75,13 @@
 <script>
 import {mapActions,mapState} from 'vuex';
 
+import {OrderProcess} from "../../extends/services";
 export default {
     data() {
 		return {
 			//列表交互数据
 			setData: {
-				serviceChangeID: 'cha_1186176145482190848',
+				serviceChangeID: '',
 				status: 0,
 				pageIndex: 1,
 				pageSize: 1
@@ -125,20 +125,22 @@ export default {
 		};
 	},
 	created() {
+        this.setData.serviceChangeID = this.$route.query.data
+        OrderProcess('GetServiceChangeInfo','GET',this.setData).then(res => {
+            console.log(res.data)
+        })
 		let setData = this.setData;
-		this.GetServiceChangeInfo(setData)
 		// console.log(this.list.serviceChangeListDTO)
 	},
 	methods: {
-		...mapActions('detail', ['GetServiceChangeInfo']),
-		fromDetailsClick(e){
-			this.$router.push({
-				path:'/OrderProcess/PremiumDetails',
-				query:{
-					data:e.orderID
-				}
-			})
-		}
+		// fromDetailsClick(e){
+		// 	this.$router.push({
+		// 		path:'/OrderProcess/PremiumDetails',
+		// 		query:{
+		// 			data:e.orderID
+		// 		}
+		// 	})
+		// }
 	},
 	computed:{
 		...mapState({

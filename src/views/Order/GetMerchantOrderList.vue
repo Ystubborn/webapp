@@ -125,11 +125,11 @@ export default {
 				},
 				{
 					titie: '服务中',
-					val:'MerConfirmed'
+					val:'inService'
 				},
 				{
 					titie: '待验收',		//已完工
-					val:'inService'	
+					val:'hasCompleted'	
 				},
 				{
 					titie: '交易完成',
@@ -287,7 +287,7 @@ export default {
 			this.$router.push({
 				path:'/Order/OrderDetails',
 				query:{
-					data:e.orderID
+					orderID:e.orderID
 				}
 			})
 		},
@@ -329,7 +329,7 @@ export default {
 				this.$router.push({
 				path:'/Order/OrderDetails',
 				query:{
-					data:this.getData[0].orderID
+					orderID:this.getData[0].orderID
 				}
 			})
 			}else{

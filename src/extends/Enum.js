@@ -415,27 +415,3 @@ let FundsType = {
 	merchant_month: { key: "merchant_month", value: "商家月结" }
 };
 
-export default {
-	Owner_Order,
-	Third_Order,
-	Common_Audit,
-	Finance_Audit,
-	MasterMarginExit,
-	TakeCash,
-	GuidPrefix,
-	OrderFlowStatus,
-	QuotationStatus,
-	FundsDirection,
-	MarginGrade,
-	MasterGrade,
-	OrderPayStatus,
-	PayBusinessType,
-	PayChannel,
-	RegisterRole,
-	RechargeType,
-	CashCouponsType,
-	BizStatus,
-	CashFilter,
-	CashRuler,
-	FundsType
-}

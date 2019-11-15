@@ -25,11 +25,15 @@
     </div>
 </template>
 <script>
-
+import {OrderProcess} from "../../extends/services";
 import { mapActions } from "vuex";
 export default {
     data(){
         return{
+            getData:{
+                feedBackID : 'fed_1194140908623368192',
+
+            },
             feedBack:[
                 {
                     title:'交易流水',
@@ -80,6 +84,10 @@ export default {
         }
     },
     created() {
+        OrderProcess('GetFeedBackInfo','GET',this.getData).then(res => {
+            this.getData.
+            console.log(res.data.data)
+            })
         // this.GetFeedBackList(this.setData);
         // this.rightsDate = this.$store.state.list.feedBackShowListDTO
         // this.setData.totalCount = this.$store.state.list.totalCount
