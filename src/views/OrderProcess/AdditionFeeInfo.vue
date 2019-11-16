@@ -77,7 +77,6 @@ export default {
 	data() {
 		return {
 			getData: [],
-			orderID: ''
 		};
 	},
 	created() {

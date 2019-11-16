@@ -70,8 +70,9 @@ export default {
 		};
 	},
 	created() {
-		this.getData = JSON.parse(window.sessionStorage.getItem('form'));
-		if (this.getData[0].additionalFeeListDTO == undefined) {
+    this.getData = JSON.parse(window.sessionStorage.getItem('form'));
+    console.log(this.getData[0].additionalFeeListDTO.length)
+		if (this.getData[0].additionalFeeListDTO.length == 0) {
 			this.display = !false;
 		}
 	},

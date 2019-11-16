@@ -1,157 +1,128 @@
 <template>
-  <div>问题单
+  <div>
     <div>
-      <el-table :data="rightsDate" border stripe
-      @row-dblclick="fromDetailsClick"
-      @select="disable"
-	   > 
+      <el-table :data="getData" border stripe @row-dblclick="fromDetailsClick">
         <el-table-column type="selection">
         </el-table-column>
-        <!-- 设置表头数据源，并循环渲染出来，property对应列内容的字段名，详情见下面的数据源格式 -->
         <el-table-column v-for="info in rightHeader" :key="info.key" :property="info.key" :label="info.label">
           <template slot-scope="scope">
             {{scope.row[scope.column.property]}}
-            <!-- {{scope.row[scope.column.prop]}} -->
-            <!-- 渲染对应表格里面的内容 -->
           </template>
         </el-table-column>
       </el-table>
-      <!-- 分页 -->
-      <div class="block">
-        <el-pagination @current-change="handleCurrentChange" 
-		:current-page.sync="currentPage3" 
-		:page-size=setData.pageSize 
-		layout="prev, pager, next, jumper" 
-		:total=setData.totalCount>
-        
-		</el-pagination>
-      </div>
     </div>
-     <el-button plain>进入问题详情</el-button>
   </div>
 </template>
 <script>
-import { mapActions, mapState } from "vuex";
+import {mapActions, mapState} from 'vuex';
 import {OrderProcess} from '../../extends/services';
 export default {
-  data() {
-    return {
-      //列表交互数据
-      activeName: "0",
-      data: {
-        userID: "",
-        status: 0,
-        pageIndex: 1,
-        pageSize: 15,
-        totalCount : 1
-      },
-      getData:null,
-      currentPage3: 5, //分页器默认跳往页码
-      rightHeader: [
+	data() {
+		return {
+			//列表交互数据
+			activeName: '0',
+			data: {
+				userID:"uid_7483a5012f7bf9ac1a000000",
+				status: 0,
+				pageIndex: 1,
+				pageSize: 15,
+				totalCount: 1
+			},
+			getData:[],
+			currentPage3: 5, //分页器默认跳往页码
+			rightHeader: [
 				{
-					label: '单据编号',
-					key: 'orderDate'
+					label: '服务单号',
+					key: 'feedBackID'
 				},
 				{
-					label: '提交日期',
-					key: 'orderID'
+					label: '问题类别',
+					key: 'feedType_txt'
 				},
 				{
-					label: '发起方',
-					key: 'profileID_txt'
+					label: '反馈时间',
+					key: 'feedDate'
 				},
 				{
-					label: '客户',
-					key: 'serviceType_txt'
-				},
-				{
-					label: '电话',
-					key: 'offerType_txt'
-				},
-				{
-					label: '地址',
+					label: '商户',
 					key: 'merchantName'
 				},
 				{
-					label: '问题类型',
+					label: '客户名称',
 					key: 'customerName'
 				},
 				{
-					label: '处理状态',
+					label: '客户电话',
 					key: 'customerPhone'
-				}
+				},
+				{
+					label: '客户地址',
+					key: 'customerCity'
+				},
+				{
+					label: '服务类型',
+					key: 'serviceType_txt'
+				},
+				{
+					label: '处理状态',
+					key: 'handleStatus_txt'
+				},
+				{
+					label: '处理结论',
+					key: 'replyContent'
+				},
 			],
 			rightsDate: []
-    };
-  },
-  created() {
-    // this.GetFeedBackList(this.setData);
-    // this.rightsDate = this.$store.state.list.feedBackShowListDTO
-		// this.setData.totalCount = this.$store.state.list.totalCount
-    // console.log(this.rightsDate)
-    // console.log(this.$store.state.list)
-
-
-
-    OrderProcess('GetFeedBackList', 'GET', this.setData).then(res => {
-      // console.log(res.data.data)
-			this.rightsDate = res.data.data.feedBackShowListDTO;
-			this.setData.totalCount = res.data.data.totalCount
+		};
+	},
+	created() {
+		OrderProcess('GetFeedBackList', 'GET', this.setData).then(res => {
+			this.getData = res.data.data.feedBackShowListDTO;
 		});
-    
-  },
-  methods: {
-    // ...mapActions("list", ["GetFeedBackList"]),
-    //进入问题详情页
-    fromDetailsClick(e){
-      console.log(e.feedBackID)
-      this.$router.push({
-				path:'/OrderProcess/FeedBackInfo',
-				query:{
-					data:e.feedBackID 
+	},
+	methods: {
+		// ...mapActions("list", ["GetFeedBackList"]),
+		//进入问题详情页
+		fromDetailsClick(e) {
+			this.$router.push({
+				path: '/OrderProcess/FeedBackInfo',
+				query: {
+					feedBackID: e.feedBackID
 				}
-			})
-    },
-    //当选中一行数据时
-    disable(row){
-			//删除按钮的禁用功能
-			if(row){
-				this.disabled = false;
-				this.getData = row
-			}else{
-				this.disabled = true
-			}
-
-			// console.log(this.getData)
-    },
-    //分页器更新页面数据
-		async handleCurrentChange(val) {
-      this.setData.pageIndex = val;
-      // await this.GetFeedBackList(this.setData);
-      // this.rightsDate = this.$store.state.list.feedBackShowListDTO
-      // this.setData.totalCount = this.$store.state.list.totalCount
-
-
-
-      OrderProcess('GetFeedBackList', 'GET', this.setData).then(res => {
-        this.rightsDate = res.data.data.feedBackShowListDTO;
-        this.setData.totalCount = res.data.data.totalCount;
-      });
+			});
 		},
-  }
+		//当选中一行数据时
+		disable(row) {
+			//删除按钮的禁用功能
+			if (row) {
+				this.disabled = false;
+				this.getData = row;
+			} else {
+				this.disabled = true;
+			}
+		},
+		//分页器更新页面数据
+		handleCurrentChange(val) {
+			this.setData.pageIndex = val;
+			OrderProcess('GetFeedBackList', 'GET', this.setData).then(res => {
+				this.rightsDate = res.data.data.feedBackShowListDTO;
+				this.setData.totalCount = res.data.data.totalCount;
+			});
+		}
+	}
 };
 </script>
 <style lang="less" scoped>
-.backlisttop{
-  display: flex;
-  li{
-    flex: 1;
-    border: 1px solid #333;
-    border-left:none;
-    text-align: center;
-    &:first-child{
-      border-left: 1px solid #333;
-    }
-  }
+.backlisttop {
+	display: flex;
+	li {
+		flex: 1;
+		border: 1px solid #333;
+		border-left: none;
+		text-align: center;
+		&:first-child {
+			border-left: 1px solid #333;
+		}
+	}
 }
 </style>

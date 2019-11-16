@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-form label-width="100px">
+   <div class="FE_hide" v-if="display">
+      您的订单中没有报价单产生哟~
+    </div>
+    <el-form label-width="100px" v-else>
       <el-row>
         <el-col :span="12">
           <el-form-item label="报价服务商">
@@ -38,6 +41,7 @@
 export default {
 	data() {
 		return {
+      display:true,
 			tableData: [{key: '1', title: '服务项目'}, {key: '2', title: '单位'}, {key: '3', title: '报价金额'}, {key: '4', title: '数量'}, {key: '5', title: '金额'}]
 		};
     },
@@ -49,3 +53,12 @@ export default {
     }
 };
 </script>
+<style lang="less" scoped>
+.FE_hide {
+	text-align: center;
+	font-weight: bolder;
+	font-size: 18px;
+	line-height: 50px;
+	color: #cecdcd;
+}
+</style>
